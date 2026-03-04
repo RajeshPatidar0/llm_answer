@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>AI Bot</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+    .chat-container {
+        width: 500px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    textarea {
+        width: 100%;
+        height: 80px;
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    button {
+        margin-top: 10px;
+        padding: 10px;
+        width: 100%;
+        background: #4f46e5;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background: #4338ca;
+    }
+
+    .response-box {
+        margin-top: 15px;
+        padding: 10px;
+        background: #eef2ff;
+        border-radius: 5px;
+        min-height: 60px;
+        white-space: pre-wrap;
+    }
+
+    .loading {
+        text-align: center;
+        font-size: 14px;
+        color: gray;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="chat-container">
+    <h2>AI Bot</h2>
+
+<textarea id="question" placeholder="Ask sports related question..."></textarea>
+<button onclick="generate()">Generate</button>
+
+<div class="loading" id="loading"></div>
+<div class="response-box" id="response"></div>
+
+</div>
+
+<script>
+async function generate() {
+    let question = document.getElementById("question").value;
+    let responseBox = document.getElementById("response");
+    let loading = document.getElementById("loading");
+
+    if (!question.trim()) {
+        alert("Please enter a question");
+        return;
+    }
+
+    responseBox.innerText = "";
+    loading.innerText = "Generating response...";
+
+    let res = await fetch("/generate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question: question })
+    });
+
+    let data = await res.json();
+
+    loading.innerText = "";
+
+    if (data.response) {
+        responseBox.innerText = data.response;
+    } else {
+        responseBox.innerText = "Error: " + data.error;
+    }
+}
+</script>
+
+</body>
+</html>
