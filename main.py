@@ -1,3 +1,7 @@
+from huggingface_hub import login
+import os
+
+login(token=os.environ.get("HUGGINGFACE_HUB_TOKEN"))
 
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -6,7 +10,6 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 import uvicorn
-import os
 # -----------------------------
 
 # Device Setup
