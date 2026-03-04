@@ -27,7 +27,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 print("Loading model...")
 
-model_name = "meta-llama/Llama-3.2-1B"
+model_name = "distilgpt2"
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(
